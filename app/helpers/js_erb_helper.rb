@@ -7,43 +7,43 @@ module JsErbHelper
   # Updates the content of the given selector with the given content
   #----------------------------------------------------------------------------
   def js_update_element(element, content)
-    %{erbHelpers.updateElement("#{element}", "#{escape_javascript(rendered_content(content))}")}
+    %{erbHelpers.updateElement("#{element}", "#{escape_javascript(rendered_content(content))}");}
   end
 
   # Like js_update_element, but with the element's dom_id
   #----------------------------------------------------------------------------
   def js_update_element_by_dom_id(element, content)
-    %{erbHelpers.updateElementById("#{dom_id(*Array(element))}", "#{escape_javascript(rendered_content(content))}")}
+    %{erbHelpers.updateElementById("#{dom_id(*Array(element))}", "#{escape_javascript(rendered_content(content))}");}
   end
 
   # Appends the given content to the given element
   #--------------------------------------------------------------
   def js_append_element_to(element, content)
-    %{erbHelpers.appendElementTo("#{element}", "#{escape_javascript(rendered_content(content))}")}
+    %{erbHelpers.appendElementTo("#{element}", "#{escape_javascript(rendered_content(content))}");}
   end
 
   # Appends the given content to the given element
   #--------------------------------------------------------------
   def js_prepend_element_to(element, content)
-    %{erbHelpers.prependElementTo("#{element}", "#{escape_javascript(rendered_content(content))}")}
+    %{erbHelpers.prependElementTo("#{element}", "#{escape_javascript(rendered_content(content))}");}
   end
 
   # Replaces the given selector with the given content
   #----------------------------------------------------------------------------
   def js_replace_element(element, content)
-    %{erbHelpers.replaceElement("#{element}", "#{escape_javascript(rendered_content(content))}")}
+    %{erbHelpers.replaceElement("#{element}", "#{escape_javascript(rendered_content(content))}");}
   end
 
   # Like js_replace_element, but with the element's dom_id
   #----------------------------------------------------------------------------
   def js_replace_element_by_dom_id(element, content)
-    %{erbHelpers.replaceElementById("#{dom_id(*Array(element))}", "#{escape_javascript(rendered_content(content))}")}
+    %{erbHelpers.replaceElementById("#{dom_id(*Array(element))}", "#{escape_javascript(rendered_content(content))}");}
   end
 
   # Removes the given element from the DOM
   #--------------------------------------------------------------
   def js_remove_element(element)
-    %{erbHelpers.removeElement("#{element}")}
+    %{erbHelpers.removeElement("#{element}");}
   end
 
   # Like +js_remove_element+, but with the element's dom_id
@@ -56,9 +56,11 @@ module JsErbHelper
   # effect from http://daneden.me/animate/
   #--------------------------------------------------------------
   def js_remove_with_css_effect(element, effect, delay = 500)
-    %{erbHelpers.removeElementWithCSSEffect("#{element}", "#{effect}", #{delay})}
+    %{erbHelpers.removeElementWithCSSEffect("#{element}", "#{effect}", #{delay});}
   end
 
+  # Redirects the user to the given URL using javascript
+  #--------------------------------------------------------------
   def js_redirect_to(url)
     %{erbHelpers.redirectTo('#{url_for(url)}')}
   end
@@ -85,6 +87,14 @@ module JsErbHelper
 
   def js_toggle_element(element)
     %{erbHelpers.toggleElement("#{element}")}
+  end
+
+  #----------------------------------------------------------------
+  #                    Animate.css effects
+  #----------------------------------------------------------------
+
+  def js_effect(element, effect)
+    %{erbHelpers.addAnimatedEffect("#{element}", "#{effect}")}
   end
 
   private
