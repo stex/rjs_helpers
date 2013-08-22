@@ -57,7 +57,7 @@ module RjsHelper
   def js_redirect_to(url)
     rjs_method :redirect_to, url_for(url)
   end
-  
+
   #----------------------------------------------------------------
   #                       Show / Hide / Toggle
   #----------------------------------------------------------------
@@ -86,12 +86,13 @@ module RjsHelper
 
   def rjs_method(func, element_or_options = {})
     if element_or_options.is_a?(Hash)
-      element = options.delete(:element)
-      content = options.delete(:content)
-      args    = options.delete(:args)
+      element = element_or_options.delete(:element)
+      content = element_or_options.delete(:content)
+      args    = element_or_options.delete(:args) || []
     else
       element = element_or_options
-      content = args = nil
+      content = nil
+      args    = []
     end
 
     if element.is_a?(ActiveRecord::Base) || element.is_a?(Array)
@@ -102,10 +103,7 @@ module RjsHelper
       js_function = func.to_s.camelize(:lower)
     end
     js_args = []
-
     js_args << elem if elem
-
-    #render content (if given)
     js_args << rendered_content(content) if content
     js_args += args
 
