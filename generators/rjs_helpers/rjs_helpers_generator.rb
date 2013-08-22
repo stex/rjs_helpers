@@ -1,4 +1,4 @@
-class QueryGeneratorGenerator < Rails::Generator::NamedBase
+class RjsHelpersGenerator < Rails::Generator::NamedBase
   def manifest
     record do |m|
       begin
