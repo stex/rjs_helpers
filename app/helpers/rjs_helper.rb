@@ -1,4 +1,4 @@
-module JsErbHelper
+module RjsHelper
   #----------------------------------------------------------------
   #                    Helpers for js.erb files
   #     Have a look at app/coffeescripts/js_erb_helpers.coffee
@@ -7,62 +7,55 @@ module JsErbHelper
   # Updates the content of the given selector with the given content
   #----------------------------------------------------------------------------
   def js_update_element(element, content)
-    %{erbHelpers.updateElement("#{element}", "#{escape_javascript(rendered_content(content))}");}
+    rjs_method :update_element, :element => element, :content => content
   end
 
   # Like js_update_element, but with the element's dom_id
   #----------------------------------------------------------------------------
   def js_update_element_by_dom_id(element, content)
-    %{erbHelpers.updateElementById("#{dom_id(*Array(element))}", "#{escape_javascript(rendered_content(content))}");}
+    js_update_element(element, content)
   end
 
   # Appends the given content to the given element
   #--------------------------------------------------------------
   def js_append_element_to(element, content)
-    %{erbHelpers.appendElementTo("#{element}", "#{escape_javascript(rendered_content(content))}");}
+    rjs_method :append_element, :element => element, :content => content
   end
 
   # Appends the given content to the given element
   #--------------------------------------------------------------
   def js_prepend_element_to(element, content)
-    %{erbHelpers.prependElementTo("#{element}", "#{escape_javascript(rendered_content(content))}");}
+    rjs_method :prepend_element, :element => element, :content => content
   end
 
   # Replaces the given selector with the given content
   #----------------------------------------------------------------------------
   def js_replace_element(element, content)
-    %{erbHelpers.replaceElement("#{element}", "#{escape_javascript(rendered_content(content))}");}
+    rjs_method :replace_element, :element => element, :content => content
   end
 
   # Like js_replace_element, but with the element's dom_id
   #----------------------------------------------------------------------------
   def js_replace_element_by_dom_id(element, content)
-    %{erbHelpers.replaceElementById("#{dom_id(*Array(element))}", "#{escape_javascript(rendered_content(content))}");}
+    js_replace_element(element, content)
   end
 
   # Removes the given element from the DOM
   #--------------------------------------------------------------
   def js_remove_element(element)
-    %{erbHelpers.removeElement("#{element}");}
+    rjs_method :remove_element, element
   end
 
   # Like +js_remove_element+, but with the element's dom_id
   #--------------------------------------------------------------
   def js_remove_element_by_dom_id(element)
-    js_remove_element "##{dom_id(*Array(element))}"
-  end
-
-  # Removes the element from the DOM and displays an
-  # effect from http://daneden.me/animate/
-  #--------------------------------------------------------------
-  def js_remove_with_css_effect(element, effect, delay = 500)
-    %{erbHelpers.removeElementWithCSSEffect("#{element}", "#{effect}", #{delay});}
+    js_remove_element(element)
   end
 
   # Redirects the user to the given URL using javascript
   #--------------------------------------------------------------
   def js_redirect_to(url)
-    %{erbHelpers.redirectTo('#{url_for(url)}')}
+    rjs_method :redirect_to, url_for(url)
   end
   
   #----------------------------------------------------------------
@@ -70,42 +63,66 @@ module JsErbHelper
   #----------------------------------------------------------------
 
   def js_show_element(element)
-    %{erbHelpers.showElement("#{element}")}
+    rjs_method :show_element, element
   end
 
   def js_hide_element(element)
-    %{erbHelpers.hideElement("#{element}")}
+    rjs_method :hide_element, element
   end
 
-  def js_show_element_by_dom_id(record)
-    js_show_element("##{dom_id(*Array(element))}")
+  def js_show_element_by_dom_id(element)
+    js_show_element(element)
   end
 
-  def js_hide_element_by_dom_id(record)
-    js_hide_element("##{dom_id(*Array(element))}")
+  def js_hide_element_by_dom_id(element)
+    js_hide_element(element)
   end
 
   def js_toggle_element(element)
-    %{erbHelpers.toggleElement("#{element}")}
-  end
-
-  #----------------------------------------------------------------
-  #                    Animate.css effects
-  #----------------------------------------------------------------
-
-  def js_effect(element, effect)
-    %{erbHelpers.addAnimatedEffect("#{element}", "#{effect}")}
+    rjs_method :toggle_element, element
   end
 
   private
 
-  def rendered_content(content)
-    if content.is_a?(Hash)
-      if content[:partial]
-        render(content)
-      end
+  def rjs_method(func, element_or_options = {})
+    if element_or_options.is_a?(Hash)
+      element = options.delete(:element)
+      content = options.delete(:content)
+      args    = options.delete(:args)
     else
-      content
+      element = element_or_options
+      content = args = nil
     end
+
+    if element.is_a?(ActiveRecord::Base) || element.is_a?(Array)
+      elem = dom_id(*Array(element))
+      js_function = "#{func}_by_id".camelize(:lower)
+    else
+      elem = element.to_s
+      js_function = func.to_s.camelize(:lower)
+    end
+    js_args = []
+
+    js_args << elem if elem
+
+    #render content (if given)
+    js_args << rendered_content(content) if content
+    js_args += args
+
+    %{rjsHelpers.#{js_function}(#{string_args(js_args)});}
+  end
+
+  def string_args(args)
+    args.map {|a| "'#{a}'"}.join(', ')
+  end
+
+
+  # Processes the given content.
+  # Strings are simply forwarded while Hashes
+  # are passed to Rails' +render+ function.
+  # Also, it automatically escapes javascript in the given content
+  #--------------------------------------------------------------
+  def rendered_content(content)
+    escape_javascript(content.is_a?(Hash) ? render(content) : content)
   end
 end
