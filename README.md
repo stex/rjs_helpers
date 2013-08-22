@@ -3,6 +3,23 @@ RJS Helpers
 
 Some helper methods to perform standard JS library tasks from js.erb without having to write actual javascript
 
+Installation
+============
+
+To install the plugin in your Rails 2.3 application, simply run
+
+    ruby script/plugin install https://github.com/Stex/rjs_helpers.git
+    
+This will automatically load the Rails helper into all your controllers.
+As explained below, the plugin ships with a default JS adapter for jQuery
+which can be automatically copied to your public/javascripts directory with
+the following line:
+
+    ruby script/generate rjs_helpers js
+    
+Now you only have to include this js file into your application layout
+and you're good to go.
+
 Usage
 =====
 
@@ -32,7 +49,7 @@ Examples
 #=> jQuery('#myContainer').hide()
 
 = js_replace_element '#willBeOverridden', 'And now for something completely different'
-#=> jQuery('#willBeOverridden').replace('And now for something completely different')
+#=> jQuery('#willBeOverridden').replaceWith('And now for something completely different')
 ```
 
 Copyright (c) 2013 Stex, released under the MIT license
