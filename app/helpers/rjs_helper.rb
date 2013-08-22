@@ -1,7 +1,7 @@
 module RjsHelper
   #----------------------------------------------------------------
   #                    Helpers for js.erb files
-  #     Have a look at app/coffeescripts/js_erb_helpers.coffee
+  #     Have a look at app/coffeescripts/rjs_helper.coffee
   #----------------------------------------------------------------
 
   # Updates the content of the given selector with the given content
