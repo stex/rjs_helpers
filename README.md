@@ -40,10 +40,10 @@ Examples
 ========
 ```ruby
 = js_update_element_by_dom_id @user, :partial => 'user', :object => @user
-#=> jQuery('user_123').html(...)
+#=> jQuery('#user_123').html(...)
 
 = js_update_element_by_dom_id [@user, :emails], :partial => 'emails'
-#=> jQuery('emails_user_123').html(...)
+#=> jQuery('#emails_user_123').html(...)
 
 = js_hide_element '#myContainer'
 #=> jQuery('#myContainer').hide()
