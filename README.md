@@ -40,15 +40,19 @@ Examples
 ========
 ```ruby
 = js_update_element_by_dom_id @user, :partial => 'user', :object => @user
+#=> rjsHelper.updateElementByDomId('user_123', ...)
 #=> jQuery('#user_123').html(...)
 
 = js_update_element_by_dom_id [@user, :emails], :partial => 'emails'
+#=> rjsHelper.updateElementByDomId('emails_user_123', ...)
 #=> jQuery('#emails_user_123').html(...)
 
 = js_hide_element '#myContainer'
+#=> rjsHelper.hideElement('#myContainer')
 #=> jQuery('#myContainer').hide()
 
 = js_replace_element '#willBeOverridden', 'And now for something completely different'
+#=> rjsHelper.replaceElement('#willBeOverridden', 'And now for something completely different')
 #=> jQuery('#willBeOverridden').replaceWith('And now for something completely different')
 ```
 
