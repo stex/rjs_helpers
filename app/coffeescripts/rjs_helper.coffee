@@ -73,14 +73,20 @@ window.rjsHelpers =
   #                          Scrolling
   #----------------------------------------------------------------
 
-  scrollToElement: (element) ->
+  scrollToElement: (element, offsetTop) ->
+    offsetTop = 0 unless offsetTop?
     jQuery('html, body').animate({
-      scrollTop: jQuery(element).offset().top - 60 #Navbar height
+      scrollTop: jQuery(element).offset().top - offsetTop
     }, 1000)
     false
 
   scrollToElementById: (element) ->
     @.scrollToElement("##{element}")
+
+  scrollToTop: (offsetTop) ->
+    offsetTop = 0 unless offsetTop?
+    jQuery("html, body").animate {scrollTop: offsetTop }, 600
+    false
 
   #----------------------------------------------------------------
   #                           Various

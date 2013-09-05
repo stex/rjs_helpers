@@ -50,14 +50,26 @@
     toggleElementById: function(element) {
       return this.toggleElement("#" + element);
     },
-    scrollToElement: function(element) {
+    scrollToElement: function(element, offsetTop) {
+      if (offsetTop == null) {
+        offsetTop = 0;
+      }
       jQuery('html, body').animate({
-        scrollTop: jQuery(element).offset().top - 60
+        scrollTop: jQuery(element).offset().top - offsetTop
       }, 1000);
       return false;
     },
     scrollToElementById: function(element) {
       return this.scrollToElement("#" + element);
+    },
+    scrollToTop: function(offsetTop) {
+      if (offsetTop == null) {
+        offsetTop = 0;
+      }
+      jQuery("html, body").animate({
+        scrollTop: offsetTop
+      }, 600);
+      return false;
     },
     redirectTo: function(url) {
       return window.location.href = url;

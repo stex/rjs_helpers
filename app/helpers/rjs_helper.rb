@@ -82,6 +82,25 @@ module RjsHelper
     rjs_method :toggle_element, element
   end
 
+  #----------------------------------------------------------------
+  #                        Other GUI Actions
+  #----------------------------------------------------------------
+
+  # Scrolls to the given element on the page.
+  # If the symbol +:top+ is given, the page will scroll to
+  # top without having to specify a certain element
+  #
+  # Additionally, an offset can be given as the second parameter.
+  # This is e.g. useful in cases of layouts with a fixed top navbar.
+  #--------------------------------------------------------------
+  def js_scroll_to(element, offset_top = 0)
+    if element == :top
+      rjs_method :scroll_to_top, offset_top
+    else
+      rjs_method :scroll_to_element, :element => element, :args => [offset_top]
+    end
+  end
+
   private
 
   def rjs_method(func, element_or_options = {})
@@ -111,7 +130,7 @@ module RjsHelper
   end
 
   def string_args(args)
-    args.map {|a| "'#{a}'"}.join(', ')
+    args.map {|a| a.is_a?(Numeric) ? a : "'#{a}'"}.join(', ')
   end
 
 
