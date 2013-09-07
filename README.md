@@ -45,7 +45,7 @@ Update, Replace, Append, Prepend
 These content update functions always take a selector element and the new content.
 
 The selector element may either be a string/symbol which is passed directly to the JS function
-or something the dom_id() function would take as well (an instance of ActiveRecord or an Array).
+or something the `dom_id()` function would take as well (an instance of ActiveRecord or an Array).
 
 The content may either be a string containing the new content or options for the 
 ActionView `render()` method.
