@@ -80,8 +80,9 @@ window.rjsHelpers =
     }, 1000)
     false
 
-  scrollToElementById: (element) ->
-    @.scrollToElement("##{element}")
+  scrollToElementById: (element, offsetTop) ->
+    offsetTop = 0 unless offsetTop?
+    @.scrollToElement("##{element}", offsetTop)
 
   scrollToTop: (offsetTop) ->
     offsetTop = 0 unless offsetTop?
