@@ -126,7 +126,11 @@ module RjsHelper
     js_args << rendered_content(content) if content
     js_args += args
 
-    %{rjsHelpers.#{js_function}(#{string_args(js_args)});}
+    if defined?(ActiveSupport::SafeBuffer)
+      %{rjsHelpers.#{js_function}(#{string_args(js_args)});}.html_safe
+    else
+      %{rjsHelpers.#{js_function}(#{string_args(js_args)});}
+    end
   end
 
   def string_args(args)
