@@ -5,6 +5,9 @@ RJS Helpers
 
 Some helper methods to perform standard JS library tasks from js.erb without having to write actual javascript
 
+**Important**: This version was made for use with Rails >= 3.1. If you are using Rails 2.3, please take a look
+               at the `rails2` branch.
+
 Installation
 ============
 
@@ -113,16 +116,9 @@ if you have a fixed top navbar (greetings to you, bootstrap).
 
 If `:top` is given as the first argument, the page will simply scroll to the very top (+ offset).
 
-
-
-
-
-
-
-
-
 Examples
 ========
+
 ```ruby
 = js_update_element @user, :partial => 'user', :object => @user
 #=> rjsHelpers.updateElementByDomId('user_123', ...)
