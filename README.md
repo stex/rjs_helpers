@@ -8,13 +8,6 @@ Some helper methods to perform standard JS library tasks from js.erb without hav
 Installation
 ============
 
-As a plugin
------------
-
-To install the plugin in your Rails 2.3 application, simply run
-
-    ruby script/plugin install https://github.com/Stex/rjs_helpers.git
-
 As a gem
 --------
 
@@ -26,16 +19,12 @@ or put this into your `Gemfile`:
 
     gem 'rjs_helpers'
 
-    
-This will automatically load the Rails helper into all your controllers.
-As explained below, the plugin ships with a default JS adapter for jQuery
-which can be automatically copied to your public/javascripts directory with
-the following line:
+In this version, RJS helpers is built as a Rails engine,
+so the necessary helper methods and assets are automatically loaded into your application.
 
-    ruby script/generate rjs_helpers js
-    
-Now you only have to include this js file into your application layout
-and you're good to go.
+You only have to extend your `application.js` file to include the necessary javascript:
+
+    //= require rjs_helpers
 
 Usage
 =====
