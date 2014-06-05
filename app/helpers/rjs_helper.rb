@@ -134,7 +134,7 @@ module RjsHelper
   end
 
   def string_args(args)
-    args.map {|a| a.is_a?(Numeric) ? a : "'#{a}'"}.join(', ')
+    args.map {|a| a.is_a?(Numeric) ? a : ('"' + fixed_escape_javascript(a.to_s) + '"')}.join(', ')
   end
 
 
@@ -144,6 +144,15 @@ module RjsHelper
   # Also, it automatically escapes javascript in the given content
   #--------------------------------------------------------------
   def rendered_content(content)
-    escape_javascript(content.is_a?(Hash) ? render(content) : content)
+    content.is_a?(Hash) ? render(content) : content
+  end
+
+  #
+  # The Rails +escape_javascript+ helper does not seem to automatically
+  # escape unicode newline elements which causes javascript strings
+  # to break. This method escapes these sequences.
+  #
+  def fixed_escape_javascript(text)
+    escape_javascript(text).gsub("\342\200\250", "&#x2028;")
   end
 end
