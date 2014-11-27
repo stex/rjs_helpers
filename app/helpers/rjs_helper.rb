@@ -103,6 +103,19 @@ module RjsHelper
 
   private
 
+  #
+  # @param [Symbol, String] func
+  #   The function to be executed. The +_by_id* part does not have
+  #   to be given, it is automatically added if element given in +element_or_options+
+  #   is an instance of +{ActiveRecord::Base}+
+  #
+  # @param [ActiveRecord::Base, Hash] element_or_options
+  #   Either the element on which the javascript function should be executed
+  #   or a hash (usually used for rendering options)
+  #
+  # @return [String] a javascript string to execute the corresponding
+  #   method in rjs_helpers.coffee
+  #
   def rjs_method(func, element_or_options = {})
     if element_or_options.is_a?(Hash)
       element = element_or_options.delete(:element)
